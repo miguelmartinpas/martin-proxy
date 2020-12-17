@@ -12,6 +12,18 @@ const headers = {
   "Access-Control-Allow-Credentials": true,
 };
 
+// Configurar cabeceras y cors
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Just a proxy!!");
 });
@@ -22,7 +34,7 @@ app.get(
   createProxyMiddleware({
     target: "https://www.lottoland.com",
     changeOrigin: true,
-    headers,
+    // headers,
     pathRewrite: function (path, req) {
       console.log(
         "proxy ...",
@@ -40,7 +52,7 @@ app.get(
   createProxyMiddleware({
     target: "https://www.lottoland.com",
     changeOrigin: true,
-    headers,
+    // headers,
     pathRewrite: function (path, req) {
       console.log(
         "proxy ...",
@@ -58,7 +70,7 @@ app.get(
   createProxyMiddleware({
     target: "http://www.movistarplus.es",
     changeOrigin: true,
-    headers,
+    // headers,
     pathRewrite: function (path, req) {
       console.log("proxy ...", path, path.replace("/tv", "/programacion-tv"));
       return path.replace("/tv", "/programacion-tv"); // .concat("?v=json");
@@ -72,7 +84,7 @@ app.get(
   createProxyMiddleware({
     target: "http://www.movistarplus.es",
     changeOrigin: true,
-    headers,
+    // headers,
     pathRewrite: function (path, req) {
       console.log("proxy ...", path, path.replace("/tv", "/programacion-tv"));
       return path.replace("/tv", "/programacion-tv");
