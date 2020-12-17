@@ -5,6 +5,13 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const hostname = process.env.HOST || "0.0.0.0";
 const port = process.env.PORT || 3000;
 
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+  "Access-Control-Allow-Headers": "X-Requested-With,content-type",
+  "Access-Control-Allow-Credentials": true,
+};
+
 app.get("/", (req, res) => {
   res.send("Just a proxy!!");
 });
@@ -15,6 +22,7 @@ app.get(
   createProxyMiddleware({
     target: "https://www.lottoland.com",
     changeOrigin: true,
+    headers,
     pathRewrite: function (path, req) {
       console.log(
         "proxy ...",
@@ -32,6 +40,7 @@ app.get(
   createProxyMiddleware({
     target: "https://www.lottoland.com",
     changeOrigin: true,
+    headers,
     pathRewrite: function (path, req) {
       console.log(
         "proxy ...",
@@ -49,6 +58,7 @@ app.get(
   createProxyMiddleware({
     target: "http://www.movistarplus.es",
     changeOrigin: true,
+    headers,
     pathRewrite: function (path, req) {
       console.log("proxy ...", path, path.replace("/tv", "/programacion-tv"));
       return path.replace("/tv", "/programacion-tv"); // .concat("?v=json");
@@ -62,6 +72,7 @@ app.get(
   createProxyMiddleware({
     target: "http://www.movistarplus.es",
     changeOrigin: true,
+    headers,
     pathRewrite: function (path, req) {
       console.log("proxy ...", path, path.replace("/tv", "/programacion-tv"));
       return path.replace("/tv", "/programacion-tv");
